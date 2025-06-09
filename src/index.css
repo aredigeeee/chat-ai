@@ -1,0 +1,32 @@
+@import "tailwindcss";
+@font-face {
+  font-family: nunito;
+  src: url("./font/Nunito-Regular.ttf");
+}
+
+@theme {
+  --color-pink-primary: #fdb3e175;
+}
+body {
+  font-family: nunito;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+  width: 0px;
+  background: transparent;
+}
+
+.custom-scroll::-webkit-scrollbar {
+  width: 7px;
+  height: 5px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+  background: #eee;
+  border-radius: 3rem;
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+  margin: 1rem 1rem;
+}
