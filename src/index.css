@@ -9,6 +9,8 @@
 }
 body {
   font-family: nunito;
+  color: #444;
+  font-weight: bold;
 }
 
 .no-scrollbar::-webkit-scrollbar {

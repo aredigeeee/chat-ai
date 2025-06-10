@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ChatInput } from "./components/ChatInput";
 import type { Message } from "./components/types";
 import { Chat } from "./components/Chat";
+import { BoxError } from "./ui/BoxError";
 
 const App = () => {
   const [messages, setMessages] = useState<Message[]>([]);

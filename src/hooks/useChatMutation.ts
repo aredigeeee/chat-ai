@@ -2,8 +2,11 @@ import { useMutation } from "@tanstack/react-query";
 import { sendMessageToOpenAi } from "../service/openai";
 
 export const useChatMutation = () => {
-  const { mutate, isPending } = useMutation({
+  const { mutate, isPending, isError } = useMutation({
     mutationFn: sendMessageToOpenAi,
+    onError: (error) => {
+      console.error("mutation error :", error);
+    },
   });
-  return { mutate, isPending };
+  return { mutate, isPending, isError };
 };

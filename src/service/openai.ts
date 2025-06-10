@@ -6,6 +6,9 @@ export const sendMessageToOpenAi = async (message: string) => {
       throw new Error("message must be string");
     }
     const res = await axios.post("http://localhost:5000/api/chat", { message });
+    if (res.status !== 200) {
+      throw new Error(`API Error: ${res.statusText}`);
+    }
     return res.data.answer;
   } catch (error) {
     console.log("Error sending message", error);
