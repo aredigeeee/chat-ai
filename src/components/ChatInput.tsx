@@ -1,13 +1,9 @@
 import TextareaAutosize from "react-textarea-autosize";
 import { SendIcon } from "../icons/SendIcon";
-import { useMutation } from "@tanstack/react-query";
-import { motion } from "motion/react";
-
-import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { useState } from "react";
 import type { Message } from "./types";
-import { sendMessageToOpenAi } from "../service/openai";
-import SendIconLeft from "../icons/SendIconLeft";
+import { useChatMutation } from "../hooks/useChatMutation";
 
 type ChatInputProps = {
   setMessage: React.Dispatch<React.SetStateAction<Message[]>>;
@@ -15,28 +11,31 @@ type ChatInputProps = {
 
 export const ChatInput: React.FC<ChatInputProps> = ({ setMessage }) => {
   const [prompt, setPrompt] = useState("");
-  const { mutate, isPending } = useMutation({
-    mutationFn: sendMessageToOpenAi,
-    onSuccess: (assistantResponse: string) => {
-      console.log("assistantRes", assistantResponse);
-      const assistantMessage: Message = {
-        id: uuidv4(),
-        role: "assistant",
-        content: assistantResponse,
-      };
-      setMessage((prev) => [...prev, assistantMessage]);
-    },
-  });
+  const { mutate } = useChatMutation();
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!prompt.trim()) return;
+
+    // add the users message to the message state
     const newUserMessage: Message = {
       id: uuidv4(),
       role: "user",
       content: prompt,
     };
     setMessage((prev) => [...prev, newUserMessage]);
-    mutate(newUserMessage.content);
+
+    // send message to api and add ai response to message state
+    mutate(newUserMessage.content, {
+      onSuccess: (assistantResponse: string) => {
+        const assistantMessage: Message = {
+          id: uuidv4(),
+          role: "assistant",
+          content: assistantResponse,
+        };
+        setMessage((prev) => [...prev, assistantMessage]);
+      },
+    });
+
     setPrompt("");
   };
 
@@ -61,19 +60,6 @@ export const ChatInput: React.FC<ChatInputProps> = ({ setMessage }) => {
             prompt.length > 39 ? "bottom-3 md:bottom-2" : ""
           }  absolute right-4  cursor-pointer focus:outline-none`}
         >
-          {isPending && (
-            <motion.div
-              animate={{ y: [1, -1] }}
-              transition={{
-                repeat: Infinity,
-                duration: 0.5,
-                type: "spring",
-                stiffness: 150,
-              }}
-            >
-              <SendIconLeft />
-            </motion.div>
-          )}
           <SendIcon />
         </button>
       </div>
