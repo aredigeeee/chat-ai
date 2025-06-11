@@ -1,8 +1,7 @@
-import { easeIn, motion } from "motion/react";
+import { motion } from "motion/react";
 const variantSpan = {
   visible: {
     y: [5, -5, 6],
-    x: [3, 6, 5],
     transition: {
       repeat: Infinity,
       duration: 0.7,
@@ -11,7 +10,7 @@ const variantSpan = {
 };
 export const Loader = () => {
   return (
-    <div className="ml-5">
+    <div>
       <motion.span
         variants={variantSpan}
         animate="visible"

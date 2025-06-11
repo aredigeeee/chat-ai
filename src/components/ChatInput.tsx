@@ -65,9 +65,9 @@ export const ChatInput: React.FC<ChatInputProps> = ({ setMessage }) => {
             prompt.length > 39 ? "bottom-3 md:bottom-2" : ""
           }  absolute right-4  cursor-pointer focus:outline-none`}
         >
-          <SendIcon />
+          {isPending ? <SendLeftIcon /> : <SendIcon />}
         </button>
-      </div>
+      </form>
     </div>
   );
 };
