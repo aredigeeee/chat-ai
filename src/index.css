@@ -7,6 +7,10 @@
 @theme {
   --color-pink-primary: #fdb3e175;
 }
+*::selection {
+  background: #e497c6;
+  color: #eee;
+}
 body {
   font-family: nunito;
   color: #444;
