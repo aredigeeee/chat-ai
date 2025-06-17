@@ -10,11 +10,16 @@ import { SendLeftIcon } from "../icons/SendLeftIcon";
 
 type ChatInputProps = {
   setMessage: React.Dispatch<React.SetStateAction<Message[]>>;
+  setShow: (show: boolean) => void;
 };
 
-export const ChatInput: React.FC<ChatInputProps> = ({ setMessage }) => {
+export const ChatInput: React.FC<ChatInputProps> = ({
+  setMessage,
+  setShow,
+}) => {
   const [prompt, setPrompt] = useState("");
   const { mutate, isPending } = useChat();
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!prompt.trim()) return;
@@ -40,6 +45,8 @@ export const ChatInput: React.FC<ChatInputProps> = ({ setMessage }) => {
     });
 
     setPrompt("");
+    // summery will hidden
+    setShow(false);
   };
 
   return (
